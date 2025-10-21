@@ -3,6 +3,7 @@ import websockets
 import metodi as utility
 
 async def echo(websocket):
+    print(type(websocket))
     async for message in websocket:
         print(message)
         richiesta = message.split("|")
