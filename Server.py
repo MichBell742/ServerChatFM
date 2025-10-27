@@ -1,7 +1,7 @@
 import asyncio
 import websockets
 import websockets.exceptions as exc
-import metodi as utility
+import funzioni as utility
 import user 
 
 utentiOnline = []
@@ -30,13 +30,15 @@ async def echo(websocket):
                     await client.getWebsocket().send(message)
             else:
                 print("non coerente")   
+                utentiOnline=utility.deleteByWebSocket(utentiOnline, websocket)
+                print("non coerente")   
                 break
     except exc.ConnectionClosedError: 
-        utentiOnline=utility.deleteByWebSocket(utentiOnline, websocket)
         print("disconnected Errore")
-    except exc.ConnectionClosedOK: 
         utentiOnline=utility.deleteByWebSocket(utentiOnline, websocket)
+    except exc.ConnectionClosedOK: 
         print("disconnected ok")
+        utentiOnline=utility.deleteByWebSocket(utentiOnline, websocket)
 
 
 def loggato(nome):
