@@ -1,0 +1,19 @@
+import asyncio
+import websockets
+
+async def hello():
+    uri = "ws://localhost:8765"
+    async with websockets.connect(uri) as websocket:
+        while True:
+            #try:
+                msg=input("cosa vuoi scrivere: ")
+                await websocket.send(msg)
+                response = await websocket.recv()
+                print(f"Risposta: {response}")
+            #except websockets.exceptions.ConnectionClosedError:
+             #   print("ERRORE")
+              #  break
+    
+
+
+asyncio.run(hello())

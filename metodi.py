@@ -16,4 +16,9 @@ def accesso(richiesta):
                 break
     return verifica
 
-
+def deleteByWebSocket(users, websocket):
+    for user in users:
+        if user.getWebsocket() == websocket:
+            users.remove(user)
+            print(user.getNome() + " si è disconnesso")
+    return users
