@@ -1,6 +1,11 @@
 import csv
-def messaggio():
-    return "interpreto messaggio"
+def messaggio(richiesta):
+    nome = richiesta[1]
+    ora= richiesta[2]
+    paese = richiesta[3]
+    mediaType = richiesta[4]
+    media = richiesta[5]
+    return False 
 
 def accesso(richiesta):
     nome = richiesta[1]
