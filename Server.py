@@ -15,7 +15,7 @@ async def echo(websocket):
             richiesta = message.split("|")
             idRichiesta = richiesta[0]
             if idRichiesta=='A':
-                if utility.accesso(richiesta):
+                if utility.accesso(richiesta, websocket, utentiOnline):
                     if not loggato(richiesta[1]):
                         utente = user.User(websocket,richiesta[1])
                         utentiOnline.append(utente)
@@ -27,7 +27,7 @@ async def echo(websocket):
                 else:
                     await websocket.send("R|no")
             elif  idRichiesta=='M':
-                if utility.messaggio(richiesta):
+                if utility.messaggio(richiesta,utentiOnline):
                     await utility.sendBroadcast(utentiOnline, message)
                 else:
                     print("errore nel messaggio")

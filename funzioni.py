@@ -1,7 +1,14 @@
 import csv
-def messaggio(richiesta):
+def messaggio(richiesta,utentiOnline):
     try:
         nome = richiesta[1]
+        for i in utentiOnline:
+            if nome != i.getNome():
+                presente = False
+            else:
+                presente= True
+        if not presente:
+            return False
         ora= richiesta[2]
         paese = richiesta[3]
         mediaType = richiesta[4]
@@ -10,18 +17,25 @@ def messaggio(richiesta):
     except IndexError:
         return False
 
-def accesso(richiesta):
-    nome = richiesta[1]
-    psw = richiesta[2]
+def accesso(richiesta, websocket, utenti):
+    websocketNonPresente=True
+    for user in utenti:
+        #verifico che non il webSocket non sia già esistente evitando l'accesso dallo stesso client
+        if(user.getWebsocket()==websocket):
+            websocketNonPresente=False
+            break
     verifica = False
-    with open('log.csv', mode='r', newline='', encoding='utf-8') as file:
-        lettore = csv.reader(file, delimiter=',')
-        for riga in lettore:
-            print(riga)
-            if riga[0]==nome and riga[1]==psw :
-                #print("coretto")
-                verifica = True
-                break
+    if websocketNonPresente:
+        nome = richiesta[1]
+        psw = richiesta[2]
+        with open('log.csv', mode='r', newline='', encoding='utf-8') as file:
+            lettore = csv.reader(file, delimiter=',')
+            for riga in lettore:
+                print(riga)
+                if riga[0]==nome and riga[1]==psw :
+                    #print("coretto")
+                    verifica = True
+                    break
     return verifica
 
 def deleteByWebSocket(users, websocket):
