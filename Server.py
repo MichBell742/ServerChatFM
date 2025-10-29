@@ -19,19 +19,23 @@ async def echo(websocket):
                     if not loggato(richiesta[1]):
                         utente = user.User(websocket,richiesta[1])
                         utentiOnline.append(utente)
-                        await utente.getWebsocket().send("U|ok")
+                        await utente.getWebsocket().send("R|ok")
+                        await utility.sendOnlineUsers(utentiOnline)
                     else:
                         print("è gia loggato sto pirlone")
                         break
                 else:
-                    await websocket.send("U|no")
+                    await websocket.send("R|no")
             elif  idRichiesta=='M':
-                for client in utentiOnline:
-                    await client.getWebsocket().send(message)
+                if utility.messaggio(richiesta):
+                    await utility.sendBroadcast(utentiOnline, message)
+                else:
+                    print("errore nel messaggio")
             else:
                 print("non coerente")   
                 break
         utentiOnline=utility.deleteByWebSocket(utentiOnline, websocket)
+        await utility.sendOnlineUsers(utentiOnline)
     except exc.ConnectionClosedError: 
         print("disconnected Errore")
     except exc.ConnectionClosedOK: 
