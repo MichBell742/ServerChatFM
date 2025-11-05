@@ -34,15 +34,16 @@ async def echo(websocket):
             else:
                 print("non coerente")   
                 break
-        utentiOnline=utility.deleteByWebSocket(utentiOnline, websocket)
-        await utility.sendOnlineUsers(utentiOnline)
+        
+        
     except exc.ConnectionClosedError: 
         print("disconnected Errore")
     except exc.ConnectionClosedOK: 
         print("disconnected ok")
     except exc.ConnectionClosed:
-        print("disconnected")
-
+        print("disconnected")   
+    utentiOnline=utility.deleteByWebSocket(utentiOnline, websocket)
+    await utility.sendOnlineUsers(utentiOnline)
 def loggato(nome):
     for user in utentiOnline:
         if user.getNome()==nome:

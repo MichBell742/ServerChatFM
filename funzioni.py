@@ -11,7 +11,7 @@ def messaggio(richiesta,utentiOnline):
         if not presente:
             return False
         ora= richiesta[2]
-        formato= "%Y/%m/%dT%H:%M:%S"
+        formato= "%Y-%m-%dT%H:%M:%S"
         try:
             data = datetime.strptime(ora, formato)
           
